@@ -413,73 +413,57 @@ select {
 }
 
 /* ---------------------------------------------------------
-/* DESKTOP DEFAULTS */
-/* --------------------------------------------------------- */
-.map-layout {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-}
-.content-bundle-top {
-  width: 45%;
-}
-.map-bundle {
-  width: 50%;
-}
-.content-bundle-bottom {
-  width: 100%;
-} /* This naturally stays at the bottom on desktop */
-
-/* ---------------------------------------------------------
    ADJUSTABLE: Mobile responsiveness
    --------------------------------------------------------- */
-
-/* MOBILE VIEW (768px and smaller) */
 @media (max-width: 768px) {
   .map-layout {
+    flex-direction: column;
+  }
+  .column-left,
+  .column-right {
+    flex: 1 1 100%;
+  }
+  .story-text {
+    font-size: 1.2rem; /* Smaller story text for phones */
+  }
+  #map {
+    height: 400px; /* Smaller map for phones */
+  }
+
+  /* Column order on page 1 (to move dropdown below map) */
+  /* 1. Tell the columns to 'disappear' but keep their children visible */
+  .column-left,
+  .column-right {
+    display: contents;
+  }
+
+  /* 2. Force the main layout to stack everything in one line */
+  .map-layout {
+    display: flex;
     flex-direction: column !important;
   }
 
-  /* 1st: Top Text */
-  .content-bundle-top {
+  /* Manually assign the order of every piece */
+
+  /* 3. Move sidebar text 1st */
+  .column-left > *:not(#dropdown-section) {
     order: 1 !important;
-    width: 100% !important;
   }
 
-  /* 2nd: The Map & Legend */
-  .map-bundle {
-    order: 2 !important;
-    width: 100% !important;
-  }
-
-  /* 3rd: The Dropdown & Final Explanation */
-  .content-bundle-bottom {
-    order: 3 !important;
-    width: 100% !important;
-    margin-top: 20px;
-    text-align: center;
-  }
-
- {
-  /* Force all paragraphs inside the bottom bundle to align left */
-  .content-bundle-bottom p {
-    text-align: left !important;
-    display: block !important;
-    width: 100% !important;
-  }
-
-  /* Keep ONLY the dropdown area centered */
-  #dropdown-section, 
-  #dropdown-section p,
-  #neighborhood-dropdown {
-    text-align: center !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
-  }
-}
-
+  /* 4. Map 2nd */
   #map {
-    height: 400px;
-    width: 100%;
+    order: 2 !important;
+  }
+
+  /* 5. Mini-legend 3rd  */
+  #mini-legend {
+    order: 3 !important; /* This moves the legend right under the map */
+  }
+
+  /* 5. Dropdown last */
+  #dropdown-section {
+    order: 4 !important; /* This moves the dropdown right under the map */
+    margin: 15px 0;
+    text-align: center;
   }
 }

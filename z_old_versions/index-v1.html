@@ -171,63 +171,94 @@
       </section>
 
       <section id="map-section" class="page-section">
-  <div class="map-layout">
+        <div class="map-layout">
+          <!-- LEFT COLUMN -------------------------------------------------------------------------------------------------------->
+          <div class="column-left">
+            <div class="map-narrative-content">
+              <h2 class="recurring-question">
+                <b
+                  >How have 3 neighborhoods changed in Concord, NC from 2009 -
+                  2021?</b
+                >
+              </h2>
+              <p>
+                <span id="instructions" class="story-highlight"><u>Instructions</u>:</span> Click the visualization
+                images on the map to see more details.
+              </p>
+            </div>
+
+            <p id="dropdown-section" >
+              <span class="story-highlight"><u>Dive deeper</span></u>: Select a neighborhood to see how it
+              has changed between 2009 and 2021 (if on mobile, you can keep scrolling to see the overview map below first):
+              <ul>
+                <select id="neighborhood-dropdown">
+                  <option value="default" disabled selected style="color: gray">
+                    Select a Neighborhood
+                  </option>
+                  <option value="High">Neighborhood 1 (High)</option>
+                  <option value="Low">Neighborhood 2 (Low)</option>
+                  <option value="Home">Neighborhood 3 (Home)</option>
+                </select>
+              </ul>
+            </p>
+
+            <div class="map-narrative-content">
+              
+              <p id="neighborhoods-2-why-chosen">
+                <span class="story-highlight"><u>What neighborhoods were chosen</u>?</span>
+                <strong>The 3 neighborhoods chosen were the following</strong> (&
+                include names used by the City of Concord for neighborhoods):
+              </p>
+              <ul>
+                <li>
+                  <span class="story-highlight">1) High</span>: Near the Hidden Pond
+                  & Hunton Forest neighborhoods & contains the highest residential
+                  property value in the city, as of 2021.
+                </li>
+                <li>
+                  <span class="story-highlight">2) Low</span>: In the Logan
+                  neighborhood & contains the lowest residential property value in
+                  the city, as of 2021.
+                </li>
+                <li>
+                  <span class="story-highlight">3) Home</span>: In the Gibson
+                  Village neighborhood where Brendan lives.
+                </li>
+              </ul>
+            </div>
+
+          </div>
+
+          <!-- RIGHT COLUMN -------------------------------------------------------------------------------------------------------->
+          <div class="column-right">
+            <div id="map"></div>
+            <div id="mini-legend" style="display: flex; justify-content: center; gap: 25px; padding: 10px; margin-top: 10px; font-family: sans-serif; font-size: 14px;">
     
-    <div class="column-left content-bundle-top">
-      <h2 class="recurring-question">
-        <b>How have 3 neighborhoods changed in Concord, NC from 2009 - 2021?</b>
-      </h2>
-      <p>
-        <span class="story-highlight"><u>Instructions</u>:</span> Click the visualization images on the map to see more details.
-      </p>
-      <p>
-        <span class="story-highlight"><u>What neighborhoods were chosen</u>?</span>
-        <strong>The 3 neighborhoods chosen were the following:</strong>
-      </p>
-      <ul>
-        <li><span class="story-highlight">1) High</span>: Near Hidden Pond...</li>
-        <li><span class="story-highlight">2) Low</span>: In the Logan neighborhood...</li>
-        <li><span class="story-highlight">3) Home</span>: In Gibson Village...</li>
-      </ul>
-    </div>
+              <div style="display: flex; align-items: center; gap: 8px;">
+                  <span style="width: 16px; height: 16px; border-radius: 50%; background-color: #28a745; border: 1px solid #333; display: inline-block;"></span> 
+                  <span>High (Neighborhood 1)</span>
+              </div>
 
-    <div class="column-right map-bundle">
-      <div id="map"></div>
-      <div id="mini-legend">
-        <div style="display: flex; align-items: center; gap: 8px;">
-            <span style="width: 16px; height: 16px; border-radius: 50%; background-color: #28a745; border: 1px solid #333; display: inline-block;"></span> 
-            <span>High (Neighborhood 1)</span>
+              <div style="display: flex; align-items: center; gap: 8px;">
+                  <span style="width: 16px; height: 16px; border-radius: 50%; background-color: #00bfff; border: 1px solid #333; display: inline-block;"></span>
+                  <span>Low (Neighborhood 2)</span>
+              </div>
+
+              <div style="display: flex; align-items: center; gap: 8px;">
+                  <span style="width: 16px; height: 16px; border-radius: 50%; background-color: #fd7e14; border: 1px solid #333; display: inline-block;"></span>
+                  <span>Home (Neighborhood 3)</span>
+              </div>
+
+            </br>
+            </br>
+
+            </div>
+
         </div>
 
-        <div style="display: flex; align-items: center; gap: 8px;">
-            <span style="width: 16px; height: 16px; border-radius: 50%; background-color: #00bfff; border: 1px solid #333; display: inline-block;"></span>
-            <span>Low (Neighborhood 2)</span>
-        </div>
-
-        <div style="display: flex; align-items: center; gap: 8px;">
-            <span style="width: 16px; height: 16px; border-radius: 50%; background-color: #fd7e14; border: 1px solid #333; display: inline-block;"></span>
-            <span>Home (Neighborhood 3)</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="column-left content-bundle-bottom">
-      <div id="dropdown-section">
-        <p><span class="story-highlight"><u>Dive deeper</u>:</span> Select a neighborhood to see how it
-              has changed between 2009 and 2021 (if on mobile, you can keep scrolling to see the overview map below first):</p>
-        <select id="neighborhood-dropdown">
-          <option value="default" disabled selected>Select a Neighborhood</option>
-          <option value="High">Neighborhood 1 (High)</option>
-          <option value="Low">Neighborhood 2 (Low)</option>
-          <option value="Home">Neighborhood 3 (Home)</option>
-        </select>
-      </div>
-
-      </br>
-
-      <p style="margin-top: 20px;">
-        <span class="story-highlight"><u>Why these neighborhoods</u>?</span> 
-        The
+        <div> 
+          <p>
+              <span class="story-highlight" style="align-items: left; ><u>Why these neighborhoods</u>?</span> The
               <strong
                 >3 neighborhoods are based on circles that are a mile
                 across</strong
@@ -241,11 +272,11 @@
                 (“High”), the lowest 2021 assessed property value (“Low”), or the
                 home that Brendan rents (“Home”).</em
               >
-      </p>
-    </div>
+          </p>
+        </div>
 
-  </div>
-</section>
+        </div>
+      </section>
 
       <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
       <script src="script.js"></script>
