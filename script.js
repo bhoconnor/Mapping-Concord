@@ -766,3 +766,13 @@ function updatePage2Map(neighborhoodId) {
     })
     .catch((error) => console.log("Error loading map 2 data:", error));
 }
+
+// Footer script
+document.addEventListener("DOMContentLoaded", function () {
+  fetch("footer.html")
+    .then((response) => response.text())
+    .then((data) => {
+      document.getElementById("footer-placeholder").innerHTML = data;
+    })
+    .catch((err) => console.error("Error loading footer:", err));
+});
