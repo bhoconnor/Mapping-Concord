@@ -1,0 +1,430 @@
+/* -------------------------------------------------- */
+/* ADJUSTABLE: Base font and colors */
+/* -------------------------------------------------- */
+:root {
+  --bg-dark: #1a1a1a;
+  --text-light: #f4f4f4;
+  --accent-yell-dark: rgba(138, 140, 5, 0.6);
+  --accent-yellow: rgba(170, 173, 8, 0.6);
+  --base-font-size: 18px;
+  --dark-text: #1a1a1a;
+}
+
+/* Standard h1, h2, etc. formatting */
+h2 {
+  color: var(--accent-yellow);
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  font-size: var(--base-font-size);
+
+  /* Your original base color */
+  background-color: var(--bg-dark);
+
+  /* The 85% black overlay + your new downloaded SVG file */
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.85)),
+    url("img/background.png");
+
+  /* Keeps the image looking great on any screen */
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+
+  color: var(--text-light);
+  line-height: 1.6;
+}
+
+/* Page Sections */
+.page-section {
+  min-height: 100vh;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* Page 1a: Landing Page */
+#landing-page {
+  /* I removed the background image here so your body's Concord map shines through! */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+/* --- NEW: This is the semi-transparent TITLE BOX, Page 1 --- */
+.landing-content {
+  background-color: var(--accent-yell-dark); /* 60% transparent dark yellow */
+  backdrop-filter: blur(
+    4px
+  ); /* Blurs the street map directly behind the text */
+  padding: 40px;
+  border-radius: 12px;
+  max-width: 900px; /* Keeps the text from spanning the whole screen */
+  margin: 0 auto;
+}
+/* --------------------------------------------------- */
+
+#main-title {
+  font-size: 3rem;
+  margin-bottom: 10px;
+}
+
+#sub-title {
+  font-size: 1.5rem;
+  font-weight: 300;
+  color: var(--text-light);
+}
+
+.main-title-highlight {
+  color: var(--dark-text);
+  font-weight: bold;
+}
+
+/* Page 1b: Story Section */
+#story-section {
+  position: relative;
+  padding-top: 15vh; /* Space for the sticky title */
+}
+
+/* Controls the big gaps between paragraphs */
+#story-section p {
+  margin-top: 0;
+  margin-bottom: 30px; /* Adjust this to make the gaps bigger or smaller */
+  line-height: 1.6;
+}
+/* -------------------------------------------------- */
+/* ADJUSTABLE: Button & dropdown styling */
+/* -------------------------------------------------- */
+#increase-text {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 10px;
+  z-index: 1000;
+  background: #444;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+/* Page 1c: Map Layout */
+.map-layout {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.column-left {
+  flex: 1 1 30%; /* Approx 1/3 width */
+  padding: 10px;
+}
+
+.column-right {
+  flex: 1 1 65%; /* Approx 2/3 width */
+  display: flex;
+  flex-direction: column;
+}
+
+/* Dropdown styling */
+select {
+  font-size: 18px; /* Adjust this value as needed */
+}
+
+/* -------------------------------------------------- */
+/* ADJUSTABLE: Map height */
+/* -------------------------------------------------- */
+#map {
+  height: 600px;
+  width: 100%;
+  background: #e5e5e5; /* Placeholder color while map loads */
+  border-radius: 8px;
+}
+
+#legend {
+  background: rgba(255, 255, 255, 0.9);
+  color: #333;
+  padding: 15px;
+  margin-top: 10px;
+  border-radius: 5px;
+}
+
+/* -------------------------------------------------- */
+/* Story Step Formatting & Navigation */
+/* -------------------------------------------------- */
+.story-container {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.story-text {
+  flex: 1 1 50%;
+  padding: 20px;
+  font-size: 2rem;
+}
+
+.story-text p {
+  margin-bottom: 40vh; /* Scrollytelling gap */
+}
+
+.story-highlight {
+  color: var(--accent-yellow);
+  font-weight: bold;
+}
+
+.story-images {
+  flex: 1 1 40%;
+  position: sticky;
+  top: 20vh;
+  height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.scrolly-img {
+  max-width: 100%;
+  border-radius: 8px;
+  opacity: 0.8;
+}
+
+.story-step {
+  display: none; /* Hides all steps by default */
+  animation: fadeIn 0.5s ease-in-out; /* Smooth transition */
+}
+
+.story-step.active {
+  display: block; /* Shows only the active step */
+}
+
+/* The fade animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Button Styling */
+.story-controls {
+  margin-top: 30px;
+  display: flex;
+  gap: 15px;
+}
+
+.story-controls button {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #f4f4f4; /* Matches your --text-light */
+  color: #1a1a1a; /* Matches your --bg-dark */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s;
+}
+
+.story-controls button:hover {
+  background-color: #cccccc;
+}
+
+/* Greys out the button if they can't click it */
+.story-controls button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background-color: #666666;
+  color: #aaaaaa;
+}
+
+/* ========================================================= */
+/* PAGE TOGGLING LOGIC (This hides Page 2!)                  */
+/* ========================================================= */
+.hidden-page {
+  display: none !important;
+}
+
+.active-page {
+  display: block;
+}
+
+/* ========================================================= */
+/* PAGE 2 MAIN TITLE                                         */
+/* ========================================================= */
+#page-2-main-banner {
+  background-color: var(--accent-yell-dark); /* Adds the yellow background */
+  margin-top: 15px; /* Adds the see-through space at the very top */
+  margin-bottom: 10px;
+  padding: 20px 20px; /* Gives it nice spacing around the text */
+  border-radius: 8px; /* Rounds the corners to match the other banner */
+}
+
+#page-2-main-banner h1 {
+  font-size: 2.2rem;
+  margin: 0;
+  color: #1a1a1a; /* Dark text reads very well on yellow */
+}
+
+/* Update your existing map wrapper height from 65vh down to 55vh */
+#map-page-2-wrapper {
+  height: 50vh;
+  width: 100%;
+  margin-bottom: 30px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #ccc;
+}
+
+/* ========================================================= */
+/* PAGE 2 BANNER & BUTTON                                    */
+/* ========================================================= */
+#page-2-banner {
+  background-color: var(--accent-yell-dark);
+  color: var(--text-light);
+  padding: 15px 20px;
+  display: flex;
+  justify-content: space-between; /* Title left, button right */
+  align-items: center;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+#page-2-title {
+  margin: 0;
+  font-size: 1.5rem;
+  text-align: left;
+}
+
+#back-to-page-1 {
+  background: transparent;
+  border: 2px solid var(--text-light);
+  color: var(--text-light);
+  padding: 8px 15px;
+  cursor: pointer;
+  font-weight: bold;
+  border-radius: 5px;
+  transition: 0.2s;
+}
+
+#back-to-page-1:hover {
+  background: var(--text-light);
+  color: #1a1a1a; /* Dark text on hover so it pops */
+}
+
+/* ========================================================= */
+/* PAGE 2 MAP CONTAINER (Roughly 2/3 of viewport)            */
+/* ========================================================= */
+#map-page-2-wrapper {
+  height: 55vh;
+  width: 100%;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #ccc; /* Temporary border so you can see the box */
+}
+
+#map-page-2 {
+  height: 100%;
+  width: 100%;
+}
+
+/* ========================================================= */
+/* PAGE 2 TABLE STYLING                                      */
+/* ========================================================= */
+#table-wrapper {
+  width: 100%;
+  overflow-x: auto; /* Adds a scrollbar on phones so table doesn't break */
+  margin-bottom: 40px;
+}
+
+#neighborhood-data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: sans-serif;
+  font-size: 0.95rem;
+}
+
+#neighborhood-data-table th,
+#neighborhood-data-table td {
+  padding: 12px 10px;
+  border-bottom: 1px solid #cccccc;
+  text-align: center;
+}
+
+/* ---------------------------------------------------------
+   ADJUSTABLE: Alternating Row Colors
+   --------------------------------------------------------- */
+/* Odd rows: Your yellow variable */
+#neighborhood-data-table tbody tr:nth-child(odd) {
+  background-color: var(--accent-yell-dark);
+  color: #1a1a1a; /* Dark gray text */
+}
+
+/* Even rows: Light Gray */
+#neighborhood-data-table tbody tr:nth-child(even) {
+  background-color: #72717198;
+  color: #1a1a1a;
+}
+
+/* Hover Effect: Brightens whichever row you are hovering over */
+#neighborhood-data-table tbody tr:hover {
+  filter: brightness(1.1); /* Dynamically makes the color a bit lighter */
+  cursor: default;
+}
+
+/* ========================================================= */
+/* MAP LEGEND STYLING                                        */
+/* ========================================================= */
+.legend {
+  background-color: white;
+  padding: 10px 15px;
+  line-height: 1.6;
+  color: #1a1a1a;
+  border-radius: 5px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2); /* Nice soft shadow */
+  font-family: sans-serif;
+  font-size: 0.85rem;
+}
+
+.legend h4 {
+  margin: 0 0 8px 0;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+/* This creates the little color squares */
+.legend i {
+  width: 18px;
+  height: 18px;
+  float: left;
+  margin-right: 8px;
+  opacity: 0.9;
+  border: 1px solid #999; /* Tiny border so light colors don't vanish */
+}
+
+/* ---------------------------------------------------------
+   ADJUSTABLE: Mobile responsiveness
+   --------------------------------------------------------- */
+@media (max-width: 768px) {
+  .map-layout {
+    flex-direction: column;
+  }
+  .column-left,
+  .column-right {
+    flex: 1 1 100%;
+  }
+  .story-text {
+    font-size: 1.4rem; /* Smaller story text for phones */
+  }
+  #map {
+    height: 400px; /* Smaller map for phones */
+  }
+}

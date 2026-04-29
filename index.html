@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Neighborhood Change in Concord, NC</title>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <!------------------------------------------------------------------------------------------------------------------------->
+    <!-- PAGE 1 START --------------------------------------------------------------------------------------------------------------->
+    <!------------------------------------------------------------------------------------------------------------------------->
+    <div id="page-1-container" class="active-page">
+      <section id="landing-page" class="page-section">
+        <div class="landing-content">
+          <h1 id="main-title">
+             <span class=main-title-highlight
+                  ><b>Mapping Concord:</b></span> Neighborhood change in Concord, NC, 2009 to 2021
+          </h1>
+          <h2 id="sub-title">
+            How have 3 neighborhoods changed in Concord, NC from 2009 - 2021 in
+            terms of: a) property values, b) median income, & c) racial & ethnic
+            demographics?
+          </h2>
+        </div>
+      </section>
+
+      <section id="story-section" class="page-section">
+        <button id="increase-text" onclick="increaseTextSize()">
+          + Make Text Larger
+        </button>
+
+        <div class="story-container">
+          <div class="story-text" id="story-text-container">
+            <div class="story-step active">
+              <p>
+                This site currently
+                <span class=story-highlight
+                  >shows 3 neighborhoods in Concord in order to go deeper</span
+                >, but may eventually be expanded. 
+                
+                </br>
+                </br>
+                
+                The
+                <span class=story-highlight
+                  >goal is to understand how & why the neighborhoods have
+                  changed</span
+                >
+                & is an emerging, Participatory Action Research (PAR) project
+                  initiated by Brendan O'Connor, a resident of 1 of the neighborhoods, 
+                  working on an interdisciplinary PhD in
+                  Community Psychology at UNC Charlotte.
+              </p>
+            </div>
+
+            <div class="story-step">
+              <p>
+                PAR, or sometimes called "Community-Based Participatory Research (CBPR)" 
+                is based on the view that <span class=story-highlight
+                >everyday people have important questions about their own lives & surroundings, &
+                should </span>be involved in any research related to their lived
+                  experiences...
+              </p>
+            </div>
+
+            <div class="story-step">
+              ...because <span class=story-highlight
+                >everyday people are experts in their own lives, &
+                together with others</span
+              >
+              in their neighborhood & community, & with the support of action
+              researchers &/or community organizers,
+            they can not only ask important research questions, but
+            
+              help find the answers.
+              
+            </br>
+            </br>
+
+                They can then use that information to share with others
+                <span class=story-highlight
+                >to change their communities for the better</span>.
+            </div>
+
+            <div class="story-step">
+              <p>
+                The current, emerging goal is to know what factors residents of each neighborhood
+                feel have contributed to changes in Concord. On the site, <span class=story-highlight
+                >you will find some initial Census & tax data
+                that may or may not be important factors in neighborhood change.</span>
+                
+                </br>
+                </br>
+            </div>
+
+            <div class="story-step">
+                <p>Specifically, the
+                  <span class=story-highlight
+                  >3 variables of change you will see are below </span>(but can potentially be expanded if 
+                    there is interest among neighbors & time & capacity for all involved for this 
+                    project to continue):
+                  
+                  </br>
+                  
+                    <ul>
+                      a) <span class=story-highlight
+                      >property values; </span>
+                      </br>
+                      b) <span class=story-highlight
+                      >median income;</span> & 
+                      </br>
+                      c) <span class=story-highlight
+                      >racial / ethnic
+                        demographics.
+                      </span>
+                    </ul>
+                </p>
+            </div>
+
+            <div class="story-step">
+              <p>
+              What do <span class=story-highlight
+                >YOU</span> think has contributed to
+                these changes?
+              </p>
+
+              <p>
+                We invite you to <span class=story-highlight
+                >click through the different parts of this data
+                  visualization & then answer <u>this handful of questions</u> after </span
+                >to share your
+                  views & sign-up to hear more, if or when this project continues.
+              </p>
+            </div>
+          </div>
+
+          <!-- Story images, could possibly bring back eventually if want-------------------------->
+          <!-- <div class="story-images">
+            <img
+              src="https://via.placeholder.com/400x300/333333/FFFFFF?text=Neighborhood+Image+1"
+              alt="Neighborhood 1"
+              class="scrolly-img"
+            />
+            <img
+              src="https://via.placeholder.com/400x300/333333/FFFFFF?text=Neighborhood+Image+2"
+              alt="Neighborhood 2"
+              class="scrolly-img"
+            />
+            <img
+              src="https://via.placeholder.com/400x300/333333/FFFFFF?text=Neighborhood+Image+3"
+              alt="Neighborhood 3"
+              class="scrolly-img"
+            />
+          </div> -->
+        </div>
+
+        <!-- Buttons to allow readers to click through each div "story-step" above ------------------>
+        <div class="story-controls">
+          <button id="prev-btn" onclick="changeStep(-1)" disabled>
+            Previous
+          </button>
+          <button id="next-btn" onclick="changeStep(1)">Next</button>
+        </div>
+      </section>
+
+      <section id="map-section" class="page-section">
+        <div class="map-layout">
+          <div class="column-left">
+            <h2 class="recurring-question">
+              <b
+                >How have 3 neighborhoods changed in Concord, NC from 2009 -
+                2021?</b
+              >
+            </h2>
+            <p>
+              <span class="story-highlight"><u>Instructions</u>:</span> Click the visualization
+              images on the map to see more details.
+            </p>
+
+            <p>
+              <span class="story-highlight"><u>Dive deeper</span></u>: Select a neighborhood to see how it
+              has changed between 2009 and 2021:
+              <ul>
+                <select id="neighborhood-dropdown">
+                  <option value="default" disabled selected style="color: gray">
+                    Select a Neighborhood
+                  </option>
+                  <option value="High">Neighborhood 1 (High)</option>
+                  <option value="Low">Neighborhood 2 (Low)</option>
+                  <option value="Home">Neighborhood 3 (Home)</option>
+                </select>
+              </ul>
+            </p>
+
+            <p>
+              <span class="story-highlight"><u>What neighborhoods were chosen</u>?</span>
+              <strong>The 3 neighborhoods chosen were the following</strong> (&
+              include names used by the City of Concord for neighborhoods):
+            </p>
+            <ul>
+              <li>
+                <span class="story-highlight">1) High</span>: Near the Hidden Pond
+                & Hunton Forest neighborhoods & contains the highest residential
+                property value in the city, as of 2021.
+              </li>
+              <li>
+                <span class="story-highlight">2) Low</span>: In the Logan
+                neighborhood & contains the lowest residential property value in
+                the city, as of 2021.
+              </li>
+              <li>
+                <span class="story-highlight">3) Home</span>: In the Gibson
+                Village neighborhood where Brendan lives.
+              </li>
+            </ul>
+
+            <p>
+              <span class="story-highlight"><u>Why these neighborhoods</u>?</span> The
+              <strong
+                >3 neighborhoods are based on circles that are a mile
+                across</strong
+              >, with a center point in each.
+              <strong
+                >These neighborhoods were chosen based on having either</strong
+              >
+              the
+              <em
+                >highest 2021 assessed property value in the city within them
+                (“High”), the lowest 2021 assessed property value (“Low”), or the
+                home that Brendan rents (“Home”).</em
+              >
+            </p>
+
+          </div>
+
+          <div class="column-right">
+            <div id="map"></div>
+            <div style="display: flex; justify-content: center; gap: 25px; padding: 10px; margin-top: 10px; font-family: sans-serif; font-size: 14px;">
+    
+              <div style="display: flex; align-items: center; gap: 8px;">
+                  <span style="width: 16px; height: 16px; border-radius: 50%; background-color: #28a745; border: 1px solid #333; display: inline-block;"></span> 
+                  <span>High (Neighborhood 1)</span>
+              </div>
+
+              <div style="display: flex; align-items: center; gap: 8px;">
+                  <span style="width: 16px; height: 16px; border-radius: 50%; background-color: #00bfff; border: 1px solid #333; display: inline-block;"></span>
+                  <span>Low (Neighborhood 2)</span>
+              </div>
+
+              <div style="display: flex; align-items: center; gap: 8px;">
+                  <span style="width: 16px; height: 16px; border-radius: 50%; background-color: #fd7e14; border: 1px solid #333; display: inline-block;"></span>
+                  <span>Home (Neighborhood 3)</span>
+              </div>
+
+            </div>
+
+        </div>
+        </div>
+      </section>
+
+      <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+      <script src="script.js"></script>
+    </div>
+    <!------------------------------------------------------------------------------------------------------------------------->
+    <!-- PAGE 1 END --------------------------------------------------------------------------------------------------------------->
+    <!------------------------------------------------------------------------------------------------------------------------->
+
+
+
+    <!------------------------------------------------------------------------------------------------------------------------->
+    <!-- PAGE 2 START --------------------------------------------------------------------------------------------------------------->
+    <!------------------------------------------------------------------------------------------------------------------------->
+    
+    <div id="page-2-container" class="hidden-page">
+        <div id="page-2-main-banner">
+          <h1>Mapping Concord</h1>
+        </div>
+
+        <div id="page-2-banner">
+            <h1 id="page-2-title">Change in "<span id="selected-neighborhood-name"> Neighborhood</span>" in Concord, NC, 2009 to 2021</h1>
+            <button id="back-to-page-1" onclick="showPage1()">← Back to Overview</button>
+        </div>
+
+        <div id="map-page-2-wrapper">
+            <div id="map-page-2"></div>
+        </div>
+
+
+        <div id="table-wrapper">
+          <h2 style="padding-left: 10px;" >  Table of separate American Community Survey (ACS) 5-year data</h2>
+          <p style="padding-left: 10px;"><em><b>  Note</b>: Table sorted by Census Tract & year, so alternates between the same Census Tracts & the 2 time periods, 2009-2013 & 2017-2021, to show change between 2009 & 2021. </em></p>
+            <table id="neighborhood-data-table">
+                <thead>
+                    <tr id="table-header-row">
+                        </tr>
+                </thead>
+                <tbody id="table-body">
+                    </tbody>
+            </table>
+        </div>
+
+    </div>
+
+    <!------------------------------------------------------------------------------------------------------------------------->
+    <!-- PAGE 2 END --------------------------------------------------------------------------------------------------------------->
+    <!------------------------------------------------------------------------------------------------------------------------->
+
+  </body>
+</html>
