@@ -115,7 +115,7 @@ body {
   flex-wrap: wrap;
   gap: 20px;
   max-width: 1400px;
-  margin: 0 auto;
+  margin: -20px auto 0; /* Pulls the map 20px higher */
 }
 
 .column-left {
@@ -422,7 +422,7 @@ select {
     flex: 1 1 100%;
   }
   .story-text {
-    font-size: 1.4rem; /* Smaller story text for phones */
+    font-size: 1.2rem; /* Smaller story text for phones */
   }
   #map {
     height: 400px; /* Smaller map for phones */
