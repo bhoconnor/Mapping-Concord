@@ -367,13 +367,13 @@ select {
 /* Odd rows: Your yellow variable */
 #neighborhood-data-table tbody tr:nth-child(odd) {
   background-color: var(--accent-yell-dark);
-  color: #1a1a1a; /* Dark gray text */
+  color: #d4d2d2; /* Dark gray text */
 }
 
 /* Even rows: Light Gray */
 #neighborhood-data-table tbody tr:nth-child(even) {
   background-color: #72717198;
-  color: #1a1a1a;
+  color: #d4d2d2; /* Dark gray text */
 }
 
 /* Hover Effect: Brightens whichever row you are hovering over */
