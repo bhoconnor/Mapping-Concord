@@ -453,13 +453,16 @@ select {
 @media (max-width: 768px) {
   /* 1. Shrink the main title */
   #main-title {
-    font-size: 1.75rem !important; /* Adjust this number (e.g., 1.5rem, 2rem) until it looks right */
+    font-size: 2rem !important; /* Adjust this number (e.g., 1.5rem, 2rem) until it looks right */
     line-height: 1.2; /* Keeps the spacing tight if the title wraps to a second line */
   }
 
-  /* 2. Shrink the text inside the story container (Prev/Next section) */
-  .story-container p {
-    font-size: 1.2rem !important; /* Adjust as needed (1rem is usually 16px, 0.9rem is a bit smaller) */
+  /* 2. Shrink ALL text inside the story container (Divs, Paragraphs, and Lists) */
+  .story-container .story-step,
+  .story-container p,
+  .story-container ul {
+    font-size: 1.2rem !important; 
+    line-height: 1.4 !important; /* Keeps the spacing comfortable */
   }
   
   .map-layout {
