@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Neighborhood Change in Concord, NC</title>
+    <title>Mapping Neighborhood Change in Concord, NC</title>
     <link
       rel="stylesheet"
       href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
@@ -141,24 +141,7 @@
             </div>
           </div>
 
-          <!-- Story images, could possibly bring back eventually if want-------------------------->
-          <!-- <div class="story-images">
-            <img
-              src="https://via.placeholder.com/400x300/333333/FFFFFF?text=Neighborhood+Image+1"
-              alt="Neighborhood 1"
-              class="scrolly-img"
-            />
-            <img
-              src="https://via.placeholder.com/400x300/333333/FFFFFF?text=Neighborhood+Image+2"
-              alt="Neighborhood 2"
-              class="scrolly-img"
-            />
-            <img
-              src="https://via.placeholder.com/400x300/333333/FFFFFF?text=Neighborhood+Image+3"
-              alt="Neighborhood 3"
-              class="scrolly-img"
-            />
-          </div> -->
+          <!-- Final div below for all story-container text (which is all the story parts you click through) -->
         </div>
 
         <!-- Buttons to allow readers to click through each div "story-step" above ------------------>
@@ -281,10 +264,14 @@
             <div id="map-page-2"></div>
         </div>
 
-
-        <div id="table-wrapper">
+       <!-- Text above table------------------------------------------------------------------------------------------------------>
+       <div>
           <h2 style="padding-left: 10px;" >  Table of separate American Community Survey (ACS) 5-year data</h2>
           <p style="padding-left: 10px;"><em><b>  Note</b>: Table sorted by Census Tract & year, so alternates between the same Census Tracts & the 2 time periods, 2009-2013 & 2017-2021, to show change between 2009 & 2021. </em></p>
+       </div>
+
+       <!-- Table ---------------------------------------------------------------------------------------------------------------->
+        <div id="table-wrapper">
             <table id="neighborhood-data-table">
                 <thead>
                     <tr id="table-header-row">
