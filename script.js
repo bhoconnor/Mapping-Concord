@@ -17,6 +17,7 @@ function increaseTextSize() {
 const concordCoords = [33.4087, -80.52];
 const initialZoom = 12;
 
+// Code that centers the map
 const map = L.map("map").setView(concordCoords, initialZoom);
 
 // Add legend to Page 1
@@ -754,6 +755,17 @@ function updatePage2Map(neighborhoodId) {
 
       // Zoom the map to perfectly fit this specific neighborhood (Removed your duplicate line here!)
       mapPage2.fitBounds(page2Layer.getBounds(), { padding: [50, 50] });
+
+      // ==========================================
+      // MOBILE CAMERA BUMP
+      // ==========================================
+      if (window.innerWidth <= 768) {
+        // We use a 300ms timeout to let the fitBounds animation finish zooming first!
+        setTimeout(function () {
+          mapPage2.panBy([0, 100]);
+        }, 300);
+      }
+      // ==========================================
 
       // ==========================================
       // ADD THE LEGEND TO PAGE 2

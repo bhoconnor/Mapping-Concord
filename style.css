@@ -3,7 +3,9 @@
 /* -------------------------------------------------- */
 
 /* To make sure to include padding inside width of the box, rather than adding it to the outside */
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
@@ -44,7 +46,15 @@ body {
 }
 
 /* Forces text to wrap and stay inside the screen */
-p, h1, h2, h3, h4, h5, h6, a, span {
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+a,
+span {
   overflow-wrap: break-word;
   word-wrap: break-word;
   word-break: break-word;
@@ -357,7 +367,7 @@ select {
 #table-wrapper {
   width: 100%;
   max-width: 100vw; /* Ensures it absolutely cannot grow wider than the screen */
-  display: block;   /* Forces it to act as a solid boundary */
+  display: block; /* Forces it to act as a solid boundary */
   overflow-x: auto; /* Adds a scrollbar on phones so table doesn't break */
   margin-bottom: 40px;
 }
@@ -461,10 +471,10 @@ select {
   .story-container .story-step,
   .story-container p,
   .story-container ul {
-    font-size: 1.2rem !important; 
+    font-size: 1.2rem !important;
     line-height: 1.4 !important; /* Keeps the spacing comfortable */
   }
-  
+
   .map-layout {
     flex-direction: column !important;
   }
@@ -489,7 +499,6 @@ select {
     text-align: center;
   }
 
- {
   /* Force all paragraphs inside the bottom bundle to align left */
   .content-bundle-bottom p {
     text-align: left !important;
@@ -498,35 +507,83 @@ select {
   }
 
   /* Keep ONLY the dropdown area centered */
-  #dropdown-section, 
+  #dropdown-section,
   #dropdown-section p,
   #neighborhood-dropdown {
     text-align: center !important;
     margin-left: auto !important;
     margin-right: auto !important;
   }
-}
 
   #map {
-    height: 400px;
+    height: 600px;
     width: 100%;
   }
 
-/* Constrain the main containers to the screen width */
+  /* Constrain the main containers to the screen width */
   .page-section,
   .map-layout,
   .column-left,
   .column-right,
   #footer-placeholder {
     width: 100% !important;
-    max-width: 100vw !important; 
+    max-width: 100vw !important;
     padding-left: 15px;
     padding-right: 15px;
   }
-  
+
   /* Stop bullet points from pushing text outward */
   ul {
-    padding-left: 20px; 
+    padding-left: 20px;
     margin-right: 10px;
+  }
+  /************************/
+  /* Legend fixes */
+  /************************/
+  /* Constrain the Leaflet container to the map box */
+  .leaflet-bottom.leaflet-right {
+    width: 100% !important;
+  }
+
+  .leaflet-bottom.leaflet-right .leaflet-control {
+    width: 100% !important; /* Changed from 100vw to 100%, so is width of map box not whole page */
+    box-sizing: border-box !important; /* Prevents padding from pushing it out of bounds */
+    margin: 0 !important;
+    padding: 10px !important;
+    background: rgba(
+      255,
+      255,
+      255,
+      0.95
+    ) !important; /* Mostly solid white so it's readable */
+    font-size: 11px !important;
+    line-height: 1.5 !important;
+
+    /* The Magic Trick: Splits the tall vertical list into 2 columns */
+    -webkit-column-count: 2 !important;
+    -moz-column-count: 2 !important;
+    column-count: 2 !important;
+    column-gap: 15px !important; /* Space between the two columns */
+  }
+
+  /* Stops a category from awkwardly splitting in half across the columns */
+  .leaflet-bottom.leaflet-right .leaflet-control > * {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  /* Stop the Leaflet legend color boxes from stair-stepping */
+  .leaflet-bottom.leaflet-right .leaflet-control i,
+  .leaflet-bottom.leaflet-right .leaflet-control span {
+    clear: both !important; /* The magic bullet: forces each box to start on a brand new, clean line */
+    float: left !important; /* Keeps the box on the left of the text */
+    margin-bottom: 4px !important; /* Adds a tiny bit of breathing room between the rows */
+  }
+
+  /* Make sure any breaks or paragraphs inside the legend also clear the space */
+  .leaflet-bottom.leaflet-right .leaflet-control br {
+    clear: both !important;
+    display: block !important;
+    content: "" !important;
   }
 }
