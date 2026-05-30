@@ -17,8 +17,14 @@ function increaseTextSize() {
 const concordCoords = [33.4087, -80.52];
 const initialZoom = 12;
 
-// Code that centers the map
-const map = L.map("map").setView(concordCoords, initialZoom);
+// // Code that centers the map
+// const map = L.map("map").setView(concordCoords, initialZoom);
+
+// Check screen size: use a tighter zoom (13) for phones, otherwise use your normal initialZoom
+const dynamicZoom = window.innerWidth <= 768 ? 14 : initialZoom;
+
+// Initialize the map using the new dynamic zoom
+const map = L.map("map").setView(concordCoords, dynamicZoom);
 
 // Add legend to Page 1
 const page1Legend = L.control({ position: "bottomright" });
@@ -345,10 +351,19 @@ fetch("combined_neighborhoods_processed.geojson")
     }
 
     // 5. Auto-zoom the map
-    map.fitBounds(geojsonLayer.getBounds(), {
-      padding: [40, 40],
-      paddingBottomRight: [200, 0],
-    });
+    if (window.innerWidth <= 768) {
+      // On mobile, reserve space at the bottom so the legend doesn't cover the blue circle
+      map.fitBounds(geojsonLayer.getBounds(), {
+        paddingTopLeft: [20, 20], // 20px of breathing room on the top and left
+        paddingBottomRight: [20, 220], // 20px on the right, 220px of reserved space at the bottom!
+      });
+    } else {
+      // On desktop, keep your original padding
+      map.fitBounds(geojsonLayer.getBounds(), {
+        padding: [40, 40],
+        paddingBottomRight: [200, 0],
+      });
+    }
   })
   .catch((error) => console.log("Error loading GeoJSON:", error));
 
