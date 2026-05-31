@@ -226,7 +226,10 @@ function addFeatures(feature, layer) {
   popupContent += buildBarChartHTML(props.top_3_demographics);
   // Add this line at the bottom of your popupContent construction
   popupContent += `<hr style="margin: 8px 0;">`;
-  popupContent += `<a href="#page2-anchor" style="color: #007bff; text-decoration: underline; font-weight: bold; cursor: pointer;" onclick="document.getElementById('neighborhood-select').value='${props.NeighID}'; updatePage2Map('${props.NeighID}');">View Neighborhood Details →</a>`;
+  // OLD, BROKEN LINK:
+  // popupContent += `<a href="#page2-anchor" style="color: #007bff; text-decoration: underline; font-weight: bold; cursor: pointer;" onclick="document.getElementById('neighborhood-select').value='${props.NeighID}'; updatePage2Map('${props.NeighID}');">View Neighborhood Details →</a>`;
+  // NEW, WORKING LINK:
+  popupContent += `<a href="#page2-anchor" style="color: #007bff; text-decoration: underline; font-weight: bold; cursor: pointer;" onclick="jumpToNeighborhood('${props.NeighID}')">View Neighborhood Details →</a>`;
   popupContent += `</div>`;
 
   // Bind to the underlying polygon
@@ -803,3 +806,16 @@ document.addEventListener("DOMContentLoaded", function () {
     })
     .catch((err) => console.error("Error loading footer:", err));
 });
+
+// ==========================================
+// POPUP LINK HELPER FUNCTION
+// ==========================================
+function jumpToNeighborhood(neighborhoodId) {
+  if (neighborhoodId === "High") {
+    loadNeighborhoodPage("High", "High Neighborhood", "#28a745"); // Green
+  } else if (neighborhoodId === "Home") {
+    loadNeighborhoodPage("Home", "Home Neighborhood", "#fd7e14"); // Orange
+  } else if (neighborhoodId === "Low") {
+    loadNeighborhoodPage("Low", "Low Neighborhood", "#00bfff"); // Blue
+  }
+}
