@@ -90,8 +90,14 @@ span {
 }
 /* --------------------------------------------------- */
 
-#main-title {
+#main-title-1 {
   font-size: 3rem;
+  margin-bottom: 0px;
+}
+
+#main-title-2 {
+  font-size: 2.5rem;
+  margin-top: 0px;
   margin-bottom: 0px;
 }
 
@@ -461,9 +467,13 @@ select {
 
 /* MOBILE VIEW (768px and smaller) */
 @media (max-width: 768px) {
-  /* 1. Shrink the main title */
-  #main-title {
+  /* 1. Shrink the main titles */
+  #main-title-1 {
     font-size: 2rem !important; /* Adjust this number (e.g., 1.5rem, 2rem) until it looks right */
+    line-height: 1.2; /* Keeps the spacing tight if the title wraps to a second line */
+  }
+  #main-title-2 {
+    font-size: 1.5rem !important; /* Adjust this number (e.g., 1.5rem, 2rem) until it looks right */
     line-height: 1.2; /* Keeps the spacing tight if the title wraps to a second line */
   }
 
