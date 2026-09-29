@@ -26,10 +26,10 @@ const dynamicZoom = window.innerWidth <= 768 ? 14 : initialZoom;
 // Initialize the map using the new dynamic zoom
 const map = L.map("map").setView(concordCoords, dynamicZoom);
 
-// Add legend to Page 1
+// Add legend to Page 1 - New code with Carto API key (as of 9/29/2026)
 const page1Legend = L.control({ position: "bottomright" });
 page1Legend.onAdd = buildLegendContent; // <-- Uses our new function!
-page1Legend.addTo(map); // (Change 'map' if your Page 1 map variable has a different name)
+page1Legend.addTo(map); // (Change 'map' if your Page 1 map variable has a different name; note Carto doesn't allow rendering on local machine, since I limited API key to only work on https://bhoconnor.github.io/)
 
 L.tileLayer(
   "https://basemaps.cartocdn.com/rastertiles/light_all/{z}/{x}/{y}{r}.png?key=cb1_4204_1_47d7c19586692bbda1a967d3",
@@ -38,6 +38,22 @@ L.tileLayer(
     maxZoom: 19,
   },
 ).addTo(map);
+
+// // Add legend to Page 1 - Old code w/out Carto API key
+
+// const page1Legend = L.control({ position: "bottomright" });
+
+// page1Legend.onAdd = buildLegendContent; // <-- Uses our new function!
+
+// page1Legend.addTo(map); // (Change 'map' if your Page 1 map variable has a different name)
+
+// L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
+//   attribution: "&copy; OpenStreetMap contributors & CartoDB",
+
+//   subdomains: "abcd",
+
+//   maxZoom: 19,
+// }).addTo(map);
 
 // ---------------------------------------------------------
 /// REUSABLE LEGEND FUNCTION: To build the legend HTML
@@ -398,7 +414,7 @@ function changeStep(direction) {
   nextBtn.disabled = currentStep === steps.length - 1; // Disable Next on last step
 }
 
-// Listen for changes on the dropdown menu
+// Listen for changes on the dropdown menu -- NEW (as of 9/29/2026)
 document
   .getElementById("neighborhood-dropdown")
   .addEventListener("change", function (e) {
@@ -413,9 +429,35 @@ document
       loadNeighborhoodPage("Low", "Low Neighborhood", "#00bfff"); // Blue
     }
 
+    // Force Leaflet to recalculate container dimensions & redraw vectors on Page 2
+    setTimeout(function () {
+      if (typeof mapPage2 !== "undefined" && mapPage2) {
+        mapPage2.invalidateSize();
+      }
+    }, 150);
+
     // Reset the dropdown back to default so they can use it again later
     e.target.selectedIndex = 0;
   });
+
+// // Listen for changes on the dropdown menu -- OLD:
+// document
+//   .getElementById("neighborhood-dropdown")
+//   .addEventListener("change", function (e) {
+//     const selectedValue = e.target.value;
+
+//     // Check which one they picked and load the right data/colors
+//     if (selectedValue === "High") {
+//       loadNeighborhoodPage("High", "High Neighborhood", "#28a745"); // Green
+//     } else if (selectedValue === "Home") {
+//       loadNeighborhoodPage("Home", "Home Neighborhood", "#fd7e14"); // Orange
+//     } else if (selectedValue === "Low") {
+//       loadNeighborhoodPage("Low", "Low Neighborhood", "#00bfff"); // Blue
+//     }
+
+//     // Reset the dropdown back to default so they can use it again later
+//     e.target.selectedIndex = 0;
+//   });
 
 // =====================================================================
 // PAGE 2 LOGIC: TABLE, MAP, AND PAGE SWITCHING
@@ -637,11 +679,11 @@ function buildTable(data, headerColor) {
   });
 }
 
-// 5. Function to create the zoomed-in map for Page 2
+// 5. Function to create the zoomed-in map for Page 2 - New code with Carto API key (as of 9/29/2026)
 function updatePage2Map(neighborhoodId) {
   // If the map hasn't been created yet, initialize it
   if (!mapPage2) {
-    mapPage2 = L.map("map-page-2").setView([35.408, -80.581], 13); // Default Concord center
+    mapPage2 = L.map("map-page-2").setView([35.408, -80.581], 13); // Default Concord center (note Carto doesn't allow rendering on local machine, since I limited API key to only work on https://bhoconnor.github.io/)
     L.tileLayer(
       "https://basemaps.cartocdn.com/rastertiles/light_all/{z}/{x}/{y}{r}.png?key=cb1_4204_1_47d7c19586692bbda1a967d3",
       {
@@ -651,6 +693,24 @@ function updatePage2Map(neighborhoodId) {
     ).addTo(mapPage2);
   }
 }
+
+// // 5. Function to create the zoomed-in map for Page 2 - Old code w/out Carto API key
+
+// function updatePage2Map(neighborhoodId) {
+//   // If the map hasn't been created yet, initialize it
+
+//   if (!mapPage2) {
+//     mapPage2 = L.map("map-page-2").setView([35.408, -80.581], 13); // Default Concord center
+
+//     L.tileLayer(
+//       "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
+
+//       {
+//         attribution: "&copy; OpenStreetMap contributors &copy; CARTO",
+//       },
+//     ).addTo(mapPage2);
+//   }
+// }
 
 // Remove the old neighborhood choropleth layer if it exists
 if (page2Layer) {
