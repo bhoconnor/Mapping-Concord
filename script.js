@@ -679,21 +679,6 @@ function buildTable(data, headerColor) {
   });
 }
 
-// 5. Function to create the zoomed-in map for Page 2 - New code with Carto API key (as of 9/29/2026)
-function updatePage2Map(neighborhoodId) {
-  // If the map hasn't been created yet, initialize it
-  if (!mapPage2) {
-    mapPage2 = L.map("map-page-2").setView([35.408, -80.581], 13); // Default Concord center (note Carto doesn't allow rendering on local machine, since I limited API key to only work on https://bhoconnor.github.io/)
-    L.tileLayer(
-      "https://basemaps.cartocdn.com/rastertiles/light_all/{z}/{x}/{y}{r}.png?key=cb1_4204_1_47d7c19586692bbda1a967d3",
-      {
-        attribution: "&copy; OpenStreetMap contributors &copy; CARTO",
-        maxZoom: 19,
-      },
-    ).addTo(mapPage2);
-  }
-}
-
 // // 5. Function to create the zoomed-in map for Page 2 - Old code w/out Carto API key
 
 // function updatePage2Map(neighborhoodId) {
@@ -712,158 +697,176 @@ function updatePage2Map(neighborhoodId) {
 //   }
 // }
 
-// Remove the old neighborhood choropleth layer if it exists
-if (page2Layer) {
-  mapPage2.removeLayer(page2Layer);
-}
+// 5. Function to create the zoomed-in map for Page 2 - New code with Carto API key (as of 9/29/2026)
+function updatePage2Map(neighborhoodId) {
+  // If the map hasn't been created yet, initialize it
+  if (!mapPage2) {
+    mapPage2 = L.map("map-page-2").setView([35.408, -80.581], 13); // Default Concord center (note Carto doesn't allow rendering on local machine, since I limited API key to only work on https://bhoconnor.github.io/)
+    L.tileLayer(
+      "https://basemaps.cartocdn.com/rastertiles/light_all/{z}/{x}/{y}{r}.png?key=cb1_4204_1_47d7c19586692bbda1a967d3",
+      {
+        attribution: "&copy; OpenStreetMap contributors &copy; CARTO",
+        maxZoom: 19,
+      },
+    ).addTo(mapPage2);
+  }
 
-// WIPE THE OLD HOUSES: Clear out houses from the previous dropdown selection
-page2Houses.clearLayers();
+  // Remove the old neighborhood choropleth layer if it exists
+  if (page2Layer) {
+    mapPage2.removeLayer(page2Layer);
+  }
 
-// Fetch the main map data again
-fetch("combined_neighborhoods_processed.geojson")
-  .then((response) => response.json())
-  .then((data) => {
-    // FILTER: Only keep the tracts for the chosen neighborhood
-    const filteredGeoJSON = {
-      type: "FeatureCollection",
-      features: data.features.filter(
-        (f) => f.properties.NeighID === neighborhoodId,
-      ),
-    };
+  // WIPE THE OLD HOUSES: Clear out houses from the previous dropdown selection
+  page2Houses.clearLayers();
 
-    // Draw the zoomed-in neighborhood
-    page2Layer = L.geoJSON(filteredGeoJSON, {
-      style: styleTractInner, // The global bin styling function
+  // Fetch the main map data again
+  fetch("combined_neighborhoods_processed.geojson")
+    .then((response) => response.json())
+    .then((data) => {
+      // FILTER: Only keep the tracts for the chosen neighborhood
+      const filteredGeoJSON = {
+        type: "FeatureCollection",
+        features: data.features.filter(
+          (f) => f.properties.NeighID === neighborhoodId,
+        ),
+      };
 
-      // CUSTOM PAGE 2 FEATURE LOGIC: Draw the houses exactly like the legend
-      onEachFeature: function (feature, layer) {
-        // --- 1. Pull your exact Python variable ---
-        let propChange = feature.properties.property_value_change;
+      // Draw the zoomed-in neighborhood
+      page2Layer = L.geoJSON(filteredGeoJSON, {
+        style: styleTractInner, // The global bin styling function
 
-        // --- SAFETY NET FOR MISSING DATA ---
-        // If the data is blank, default to "No Data" so the map doesn't crash!
-        let displayChange = "No Data";
-        if (propChange !== null && propChange !== undefined) {
-          displayChange = "$" + propChange.toLocaleString();
-        }
+        // CUSTOM PAGE 2 FEATURE LOGIC: Draw the houses exactly like the legend
+        onEachFeature: function (feature, layer) {
+          // --- 1. Pull your exact Python variable ---
+          let propChange = feature.properties.property_value_change;
 
-        // --- 2. Build the Popup Content FIRST ---
-        let props = feature.properties; // Defines 'props' so your code below works
-        let cleanTract = props.Census_Tract || "Unknown";
-
-        // Safety net for Income
-        let incStr = "No Data";
-        if (props.income_change !== null && props.income_change !== undefined) {
-          incStr = "$" + props.income_change.toLocaleString();
-        }
-
-        // Safety net for Property Value (using the propChange variable from above)
-        let propStr = "No Data";
-        if (propChange !== null && propChange !== undefined) {
-          propStr = "$" + propChange.toLocaleString();
-        }
-
-        // Build the HTML just like Page 1
-        let popupContent = `<div style="min-width: 200px; font-family: sans-serif;">`;
-        popupContent += `<b>${props.NeighID} Neighborhood</b>: ${cleanTract}<br><hr style="margin: 5px 0;">`;
-        popupContent += `💵 <b>Income</b> Change: +${incStr}<br>`;
-        popupContent += `🏘️ <b>Property Value</b> Change: +${propStr}<br>`;
-
-        // Add the bar chart
-        if (props.top_3_demographics) {
-          popupContent += buildBarChartHTML(props.top_3_demographics);
-        }
-
-        popupContent += `</div>`;
-
-        // Bind to the underlying polygon shape
-        layer.bindPopup(popupContent);
-
-        // --- 3. Only draw a house IF we actually have a number ---
-        if (propChange !== null && propChange !== undefined) {
-          // Size the house based on your 3 Natural Breaks
-          // New 50% larger sizes: 18px (Small), 27px (Medium), 36px (Large)
-          let iconSize = 18;
-          if (propChange >= 209310) {
-            iconSize = 36; // Was 24
-          } else if (propChange >= 98960) {
-            iconSize = 27; // Was 18
-          } else {
-            iconSize = 18; // Was 12
+          // --- SAFETY NET FOR MISSING DATA ---
+          // If the data is blank, default to "No Data" so the map doesn't crash!
+          let displayChange = "No Data";
+          if (propChange !== null && propChange !== undefined) {
+            displayChange = "$" + propChange.toLocaleString();
           }
 
-          // Update the SVG Icon (ensure width/height use the new iconSize)
-          let iconHtml = `<div style="display: flex; justify-content: center; align-items: center; width: ${iconSize}px; height: ${iconSize}px;">
-            <svg width="${iconSize}" height="${iconSize}" viewBox="0 0 24 24" fill="#1a1a1a" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(1px 1px 1px rgba(255,255,255,0.8));">
-                <path d="M12 3L2 12H5V20H19V12H22L12 3Z"></path>
-            </svg>
-        </div>`;
+          // --- 2. Build the Popup Content FIRST ---
+          let props = feature.properties; // Defines 'props' so your code below works
+          let cleanTract = props.Census_Tract || "Unknown";
 
-          const customIcon = L.divIcon({
-            html: iconHtml,
-            className: "custom-house-icon",
-            iconSize: [iconSize, iconSize],
-            iconAnchor: [iconSize / 2, iconSize / 2], // Centering logic stays the same
-          });
-
-          // Place the icon in the center of the tract
+          // Safety net for Income
+          let incStr = "No Data";
           if (
-            feature.geometry.type === "Polygon" ||
-            feature.geometry.type === "MultiPolygon"
+            props.income_change !== null &&
+            props.income_change !== undefined
           ) {
-            const bounds = layer.getBounds();
-            const center = bounds.getCenter();
+            incStr = "$" + props.income_change.toLocaleString();
+          }
 
-            const marker = L.marker(center, {
-              icon: customIcon,
-              interactive: true,
+          // Safety net for Property Value (using the propChange variable from above)
+          let propStr = "No Data";
+          if (propChange !== null && propChange !== undefined) {
+            propStr = "$" + propChange.toLocaleString();
+          }
+
+          // Build the HTML just like Page 1
+          let popupContent = `<div style="min-width: 200px; font-family: sans-serif;">`;
+          popupContent += `<b>${props.NeighID} Neighborhood</b>: ${cleanTract}<br><hr style="margin: 5px 0;">`;
+          popupContent += `💵 <b>Income</b> Change: +${incStr}<br>`;
+          popupContent += `🏘️ <b>Property Value</b> Change: +${propStr}<br>`;
+
+          // Add the bar chart
+          if (props.top_3_demographics) {
+            popupContent += buildBarChartHTML(props.top_3_demographics);
+          }
+
+          popupContent += `</div>`;
+
+          // Bind to the underlying polygon shape
+          layer.bindPopup(popupContent);
+
+          // --- 3. Only draw a house IF we actually have a number ---
+          if (propChange !== null && propChange !== undefined) {
+            // Size the house based on your 3 Natural Breaks
+            // New 50% larger sizes: 18px (Small), 27px (Medium), 36px (Large)
+            let iconSize = 18;
+            if (propChange >= 209310) {
+              iconSize = 36; // Was 24
+            } else if (propChange >= 98960) {
+              iconSize = 27; // Was 18
+            } else {
+              iconSize = 18; // Was 12
+            }
+
+            // Update the SVG Icon (ensure width/height use the new iconSize)
+            let iconHtml = `<div style="display: flex; justify-content: center; align-items: center; width: ${iconSize}px; height: ${iconSize}px;">
+                  <svg width="${iconSize}" height="${iconSize}" viewBox="0 0 24 24" fill="#1a1a1a" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(1px 1px 1px rgba(255,255,255,0.8));">
+                      <path d="M12 3L2 12H5V20H19V12H22L12 3Z"></path>
+                  </svg>
+              </div>`;
+
+            const customIcon = L.divIcon({
+              html: iconHtml,
+              className: "custom-house-icon",
+              iconSize: [iconSize, iconSize],
+              iconAnchor: [iconSize / 2, iconSize / 2], // Centering logic stays the same
             });
 
-            marker.bindPopup(popupContent);
+            // Place the icon in the center of the tract
+            if (
+              feature.geometry.type === "Polygon" ||
+              feature.geometry.type === "MultiPolygon"
+            ) {
+              const bounds = layer.getBounds();
+              const center = bounds.getCenter();
 
-            // ADD TO OUR PAGE 2 LAYER GROUP
-            page2Houses.addLayer(marker);
+              const marker = L.marker(center, {
+                icon: customIcon,
+                interactive: true,
+              });
+
+              marker.bindPopup(popupContent);
+
+              // ADD TO OUR PAGE 2 LAYER GROUP
+              page2Houses.addLayer(marker);
+            }
           }
-        }
-      },
-    }).addTo(mapPage2);
+        },
+      }).addTo(mapPage2);
 
-    // ADD ALL NEW HOUSES TO THE MAP AT ONCE
-    page2Houses.addTo(mapPage2);
+      // ADD ALL NEW HOUSES TO THE MAP AT ONCE
+      page2Houses.addTo(mapPage2);
 
-    // === FIX ADDED HERE FOR PAGE 2 CIRCLES & HOUSES (9/29/2026)===
-    // Force Leaflet to recalculate map container size now that Page 2 is visible
-    // and GeoJSON data is loaded, resolving the 0x0 pixel coordinate issue
-    if (typeof mapPage2 !== "undefined" && mapPage2) {
-      mapPage2.invalidateSize();
-    }
-    // ==================================================
+      // === FIX ADDED HERE FOR PAGE 2 CIRCLES & HOUSES (9/29/2026)===
+      // Force Leaflet to recalculate map container size now that Page 2 is visible
+      // and GeoJSON data is loaded, resolving the 0x0 pixel coordinate issue
+      if (typeof mapPage2 !== "undefined" && mapPage2) {
+        mapPage2.invalidateSize();
+      }
+      // ==================================================
 
-    // Zoom the map to perfectly fit this specific neighborhood
-    mapPage2.fitBounds(page2Layer.getBounds(), { padding: [50, 50] });
+      // Zoom the map to perfectly fit this specific neighborhood
+      mapPage2.fitBounds(page2Layer.getBounds(), { padding: [50, 50] });
 
-    // ==========================================
-    // MOBILE CAMERA BUMP
-    // ==========================================
-    if (window.innerWidth <= 768) {
-      // We use a 300ms timeout to let the fitBounds animation finish zooming first!
-      setTimeout(function () {
-        mapPage2.panBy([0, 100]);
-      }, 300);
-    }
-    // ==========================================
+      // ==========================================
+      // MOBILE CAMERA BUMP
+      // ==========================================
+      if (window.innerWidth <= 768) {
+        // We use a 300ms timeout to let the fitBounds animation finish zooming first!
+        setTimeout(function () {
+          mapPage2.panBy([0, 100]);
+        }, 300);
+      }
+      // ==========================================
 
-    // ==========================================
-    // ADD THE LEGEND TO PAGE 2
-    // ==========================================
-    if (!page2Legend) {
-      page2Legend = L.control({ position: "bottomright" });
-      page2Legend.onAdd = buildLegendContent; // <-- Uses the exact same function!
-      page2Legend.addTo(mapPage2);
-    }
-  })
-  .catch((error) => console.log("Error loading map 2 data:", error));
+      // ==========================================
+      // ADD THE LEGEND TO PAGE 2
+      // ==========================================
+      if (!page2Legend) {
+        page2Legend = L.control({ position: "bottomright" });
+        page2Legend.onAdd = buildLegendContent; // <-- Uses the exact same function!
+        page2Legend.addTo(mapPage2);
+      }
+    })
+    .catch((error) => console.log("Error loading map 2 data:", error));
+}
 
 // Footer script
 document.addEventListener("DOMContentLoaded", function () {
