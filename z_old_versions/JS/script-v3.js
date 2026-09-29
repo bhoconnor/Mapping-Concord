@@ -832,15 +832,7 @@ fetch("combined_neighborhoods_processed.geojson")
     // ADD ALL NEW HOUSES TO THE MAP AT ONCE
     page2Houses.addTo(mapPage2);
 
-    // === FIX ADDED HERE FOR PAGE 2 CIRCLES & HOUSES (9/29/2026)===
-    // Force Leaflet to recalculate map container size now that Page 2 is visible
-    // and GeoJSON data is loaded, resolving the 0x0 pixel coordinate issue
-    if (typeof mapPage2 !== "undefined" && mapPage2) {
-      mapPage2.invalidateSize();
-    }
-    // ==================================================
-
-    // Zoom the map to perfectly fit this specific neighborhood
+    // Zoom the map to perfectly fit this specific neighborhood (Removed your duplicate line here!)
     mapPage2.fitBounds(page2Layer.getBounds(), { padding: [50, 50] });
 
     // ==========================================
